@@ -2,14 +2,12 @@ import Layout from "./components/layout/Layout";
 import InvoiceForm from "./components/Invoices/InvoiceForm";
 import { useState } from "react";
 import InvoiceItem from "./components/Invoices/InoviceItem";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import HomePage from "./components/home/HomePage";
 
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [isThereInvoices, setIsThereInvoices] = useState(false);
-
- 
 
   const deleteInvoice = (id) => {
     setInvoices((prevStates) => {
@@ -21,30 +19,32 @@ function App() {
   };
 
   return (
-    <div>
-      <Layout />
+    <Layout>
+      <Switch>
 
-      <Route path="/home" exact>
-        <HomePage />
-      </Route>
+        <Route path="/home" exact>
+          <HomePage />
+        </Route>
 
-      {invoices.map((item, index) => {
-        return (
-          <InvoiceItem
-            key={index}
-            id={index}
-            name={item.name}
-            quantity={item.quantity}
-            price={item.price}
-            onDelete={deleteInvoice}
-          />
-        );
-      })}
+        {invoices.map((item, index) => {
+          return (
+            <InvoiceItem
+              key={index}
+              id={index}
+              name={item.name}
+              quantity={item.quantity}
+              price={item.price}
+              onDelete={deleteInvoice}
+            />
+          );
+        })}
 
-      <Route path="/new-invoice">
+        <Route path="/new-invoice">
           <InvoiceForm />
-      </Route>
-    </div>
+        </Route>
+        
+      </Switch>
+    </Layout>
   );
 }
 

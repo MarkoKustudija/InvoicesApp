@@ -1,9 +1,6 @@
-
-
-
 import React, { useState } from "react";
 
-const InvoiceForm = (props) => {
+const CreateArea = (props) => {
 
   const [invoice, setInvoice] = useState({
     name: "",
@@ -36,8 +33,26 @@ const InvoiceForm = (props) => {
   return (
     <div>
       <form>
-     
+        {/* <input
+          onChange={handleChange}
+          name="name"
+          placeholder="Name"
+          value={invoice.name}
+        />
+        <input
+          onChange={handleChange}
+          number="quantity"
+          placeholder="Quantity"
+          value={invoice.quantity}
+        />
+        <input
+          onChange={handleChange}
+          number="price"
+          placeholder="Price"
+          value={invoice.price}
+        /> */}
         <div>
+          {/* <label htmlFor="name">Item Name</label> */}
           <input
             onChange={handleChange}
             type="name"
@@ -48,6 +63,7 @@ const InvoiceForm = (props) => {
           />
         </div>
         <div>
+          {/* <label htmlFor="quantity">Quantity</label> */}
           <input
             onChange={handleChange}
             type="number"
@@ -60,6 +76,7 @@ const InvoiceForm = (props) => {
           />
         </div>
         <div >
+          {/* <label htmlFor="price">Price</label> */}
           <input
             onChange={handleChange}
             type="number"
@@ -78,4 +95,4 @@ const InvoiceForm = (props) => {
   );
 }
 
-export default InvoiceForm;
+export default CreateArea;

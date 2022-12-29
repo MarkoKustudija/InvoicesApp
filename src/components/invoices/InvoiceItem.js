@@ -10,9 +10,9 @@ const InvoiceItem = (props) => {
   return (
     <Fragment>
       <div className={classes.item}>
-        <h1> Item name :{props.name}</h1>
-        <p> Quantity : {props.quantity}</p>
-        <p> Price : {props.price}</p>
+        <h1> Item name:{props.name}</h1>
+        <h3> Quantity: {props.quantity}</h3>
+        <h3> Price: {props.price} $</h3>
         <button onClick={handleClick}>DELETE</button>
       </div>
     </Fragment>

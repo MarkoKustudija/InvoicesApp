@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Prompt } from "react-router-dom";
 import classes from "./InvoiceForm.module.css";
+import Card from "../UI/Card";
 
 const InvoiceForm = (props) => {
   const [isEntering, setIsEntering] = useState(false);
@@ -47,52 +48,54 @@ const InvoiceForm = (props) => {
   return (
     <Fragment>
       <Prompt when={isEntering} message={(location) => message} />
-      <form
-        className={classes.form}
-        onFocus={formFocusHandler}
-        onSubmit={submitFormHandler}
-      >
-        <div>
-          <input
-            onChange={handleChange}
-            type="name"
-            id="name"
-            name="name"
-            value={invoice.name}
-            placeholder="Item Name"
-          />
-        </div>
-        <div>
-          <input
-            onChange={handleChange}
-            type="number"
-            min="1"
-            step="1"
-            id="quantity"
-            name="quantity"
-            value={invoice.quantity}
-            placeholder="Quantity"
-          />
-        </div>
-        <div>
-          <input
-            onChange={handleChange}
-            type="number"
-            min="0.1"
-            step="0.01"
-            id="price"
-            name="price"
-            value={invoice.price}
-            placeholder="Price"
-          />
-        </div>
-        {/* <button onClick={submitInvoice}> Add </button> */}
-        <div className={classes.actions}>
-          <button onClick={finishEnteringHandler} className="btn">
-            Add Invoice
-          </button>
-        </div>
-      </form>
+      <Card>
+        <form
+          className={classes.form}
+          onFocus={formFocusHandler}
+          onSubmit={submitFormHandler}
+        >
+          <div className={classes.control}>
+            <input
+              onChange={handleChange}
+              type="name"
+              id="name"
+              name="name"
+              value={invoice.name}
+              placeholder="Item Name"
+            />
+          </div>
+          <div className={classes.control}>
+            <input
+              onChange={handleChange}
+              type="number"
+              min="1"
+              step="1"
+              id="quantity"
+              name="quantity"
+              value={invoice.quantity}
+              placeholder="Quantity"
+            />
+          </div>
+          <div className={classes.control}>
+            <input
+              onChange={handleChange}
+              type="number"
+              min="0.1"
+              step="0.01"
+              id="price"
+              name="price"
+              value={invoice.price}
+              placeholder="Price"
+            />
+          </div>
+          <br/>
+          <div className={classes.actions}>
+            <button onClick={finishEnteringHandler} className="btn">
+              Add Invoice
+            </button>
+          </div>
+        </form>
+      </Card>
     </Fragment>
   );
 };

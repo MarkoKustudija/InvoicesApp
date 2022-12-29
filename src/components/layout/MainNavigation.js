@@ -18,7 +18,7 @@ const MainNavigation = () => {
           </li>
           <li>
             <NavLink to="/new-invoice" activeClassName={classes.active}>
-              Add new Invoice
+              New Invoice
             </NavLink>
           </li>
         </ul>

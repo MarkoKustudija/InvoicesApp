@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
+import { Prompt } from "react-router-dom";
+import classes from "./InvoiceForm.module.css";
 
-const CreateArea = (props) => {
+const InvoiceForm = (props) => {
+  const [isEntering, setIsEntering] = useState(false);
 
   const [invoice, setInvoice] = useState({
     name: "",
@@ -19,8 +22,7 @@ const CreateArea = (props) => {
     });
   }
 
-  function submitInvoice(event) {
-    
+  function submitFormHandler(event) {
     props.onAdd(invoice);
     setInvoice({
       name: "",
@@ -30,40 +32,37 @@ const CreateArea = (props) => {
     event.preventDefault();
   }
 
+  const formFocusHandler = () => {
+    console.log("Focus!");
+    setIsEntering(true);
+  };
+
+  const finishEnteringHandler = () => {
+    setIsEntering(false);
+  };
+
+  let message =
+    "Are you shure you want to leave the form? All your data will be lost!!!";
+
   return (
-    <div>
-      <form>
-        {/* <input
-          onChange={handleChange}
-          name="name"
-          placeholder="Name"
-          value={invoice.name}
-        />
-        <input
-          onChange={handleChange}
-          number="quantity"
-          placeholder="Quantity"
-          value={invoice.quantity}
-        />
-        <input
-          onChange={handleChange}
-          number="price"
-          placeholder="Price"
-          value={invoice.price}
-        /> */}
+    <Fragment>
+      <Prompt when={isEntering} message={(location) => message} />
+      <form
+        className={classes.form}
+        onFocus={formFocusHandler}
+        onSubmit={submitFormHandler}
+      >
         <div>
-          {/* <label htmlFor="name">Item Name</label> */}
           <input
             onChange={handleChange}
             type="name"
             id="name"
             name="name"
             value={invoice.name}
-            placeholder = "Item Name"
+            placeholder="Item Name"
           />
         </div>
         <div>
-          {/* <label htmlFor="quantity">Quantity</label> */}
           <input
             onChange={handleChange}
             type="number"
@@ -72,11 +71,10 @@ const CreateArea = (props) => {
             id="quantity"
             name="quantity"
             value={invoice.quantity}
-            placeholder = "Quantity"
+            placeholder="Quantity"
           />
         </div>
-        <div >
-          {/* <label htmlFor="price">Price</label> */}
+        <div>
           <input
             onChange={handleChange}
             type="number"
@@ -85,14 +83,18 @@ const CreateArea = (props) => {
             id="price"
             name="price"
             value={invoice.price}
-            placeholder = "Price"
+            placeholder="Price"
           />
         </div>
-        <button onClick={submitInvoice}> Add </button>
+        {/* <button onClick={submitInvoice}> Add </button> */}
+        <div className={classes.actions}>
+          <button onClick={finishEnteringHandler} className="btn">
+            Add Invoice
+          </button>
+        </div>
       </form>
-      {props.total}
-    </div>
+    </Fragment>
   );
-}
+};
 
-export default CreateArea;
+export default InvoiceForm;

@@ -1,79 +1,57 @@
 import Layout from "./components/layout/Layout";
 import { Redirect, Route, Switch } from "react-router-dom";
 import HomePage from "./components/home/HomePage";
-import Invoices from "./pages/Invoices";
-import NewInvoice from './pages/NewInvoice';
-import InvoiceList from "./components/InvoiceList";
-import CreateArea from "./components/CreateArea";
+import InvoiceList from "./components/invoices/InvoiceList";
 import { useState } from "react";
-
-// const DUMMY_ITEMS= [
-//   {
-//     id: 1,
-//     name: 'Toilet Paper',
-//     quantity: 1,
-//     price: 10.99 
-//   },
-//   {
-//     id: 2,
-//     name: 'Bread',
-//     quantity: 2,
-//     price: 3.44
-//   }
-
-// ]
+import InvoiceForm from "./components/invoices/InvoiceForm";
+import NoInvoicesFound from "./components/invoices/NoInvoicesFound";
 
 function App() {
-
-  const [invoices , setInvoices] = useState([]);
+  const [invoices, setInvoices] = useState([]);
+  const [isThereInvoices, setIsThereInvoices] = useState(false);
 
   const addInvoiceHandler = (newInvoice) => {
-    setInvoices(prevValue => {
+    setInvoices((prevValue) => {
       return [...prevValue, newInvoice];
-    })
-
-  }
+    });
+    setIsThereInvoices(true);
+  };
 
   const deleteInvoice = (id) => {
-    setInvoices(prevStates => {
-      return prevStates.filter(( item, index) => {
+    setInvoices((prevStates) => {
+      return prevStates.filter((item, index) => {
         return index !== id;
       });
     });
-    console.log('deleted');
-  }
+    console.log("deleted");
+  };
 
-
-   return (
+  return (
     <Layout>
-    <Switch>
-      
-      <Route path="/home" exact>
-        <HomePage />
-      </Route>
+      <Switch>
+        {!isThereInvoices && (
+          <Route path="/home" exact>
+            <NoInvoicesFound />
+          </Route>
+        )}
 
-      <Route path="/" exact>
-        <Redirect to = "/home" />
-      </Route>
-      
-      {/* <Route path="/invoices" exact>
-        <Invoices />
-      </Route> */}
+        <Route path="/home" exact>
+          <HomePage />
+        </Route>
 
-      <Route path="/invoices" exact>
-        <InvoiceList  invoices={invoices} onDelete = {deleteInvoice} />
-      </Route>
+        <Route path="/" exact>
+          <Redirect to="/home" />
+        </Route>
 
-      {/* <Route path="/new-invoice" exact>
-        <NewInvoice />
-      </Route> */}
+        <Route path="/invoices" exact>
+          <InvoiceList invoices={invoices} onDelete={deleteInvoice} />
+        </Route>
 
-      <Route path="/new-invoice" exact>
-        <CreateArea onAdd = {addInvoiceHandler}/>
-      </Route>
-      
-    </Switch>
-  </Layout>
+        <Route path="/new-invoice" exact>
+          <InvoiceForm onAdd={addInvoiceHandler} />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 

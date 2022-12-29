@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import classes from './InvoiceItem.module.css';
 
 const InvoiceItem = (props) => {
 
@@ -8,7 +9,7 @@ const InvoiceItem = (props) => {
   
   return (
     <Fragment>
-      <div className="note">
+      <div className={classes.item}>
         <h1> Item name :{props.name}</h1>
         <p> Quantity : {props.quantity}</p>
         <p> Price : {props.price}</p>

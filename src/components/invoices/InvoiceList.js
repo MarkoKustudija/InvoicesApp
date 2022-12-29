@@ -1,12 +1,12 @@
 
-import { useState } from "react";
 import InvoiceItem from "./InvoiceItem";
+import classes from './InvoiceList.module.css';
 
 const InvoiceList = (props) => {
 
   
   return (
-    <div>
+    <div className={classes.sorting}>
       {props.invoices.map((item, index) => {
         return (
           <InvoiceItem

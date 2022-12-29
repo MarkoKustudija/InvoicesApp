@@ -24,13 +24,14 @@ const InvoiceForm = (props) => {
   }
 
   function submitFormHandler(event) {
+    event.preventDefault();
     props.onAdd(invoice);
     setInvoice({
       name: "",
       quantity: "",
       price: "",
     });
-    event.preventDefault();
+    
   }
 
   const formFocusHandler = () => {

@@ -11,6 +11,16 @@
     margin: 0;
     padding: 0;
   }
+
+  .total {
+    color: teal;
+    border: 1px solid teal;
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 0.5rem 1.5rem;
+    background-color: #9ca2a2;
+    cursor: pointer;
+  }
   
   .sorting {
     padding-bottom: 1rem;

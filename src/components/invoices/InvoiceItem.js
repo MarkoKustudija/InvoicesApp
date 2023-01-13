@@ -3,9 +3,6 @@ import classes from './InvoiceItem.module.css';
 
 const InvoiceItem = (props) => {
 
-  const handleClick = () => {
-    props.onDelete(props.id);
-  };
   
   return (
     <Fragment>
@@ -13,7 +10,8 @@ const InvoiceItem = (props) => {
         <h1> Item name:{props.name}</h1>
         <h3> Quantity: {props.quantity}</h3>
         <h3> Price: {props.price} $</h3>
-        <button onClick={handleClick}>DELETE</button>
+        <h3> Total : {props.quantity * props.price}  $</h3>
+        <button onClick={() => props.onDelete(props.id)}>DELETE</button>
       </div>
     </Fragment>
   );

@@ -5,6 +5,7 @@ import InvoiceList from "./components/invoices/InvoiceList";
 import { useEffect, useState } from "react";
 import InvoiceForm from "./components/invoices/InvoiceForm";
 import NoInvoicesFound from "./components/invoices/NoInvoicesFound";
+import NotFound from "./NotFound";
 
 function App() {
 
@@ -15,10 +16,11 @@ function App() {
   const history = useHistory();
 
   useEffect(() => {
+    localStorage.setItem("my_key", JSON.stringify({ invoices }));
     if (isEntering) {
       history.push("/invoices");
     }
-    localStorage.setItem("my_key", JSON.stringify({ invoices }));
+    
   }, [isEntering, history, invoices]);
 
   
@@ -77,6 +79,11 @@ function App() {
         <Route path="/new-invoice" exact>
           <InvoiceForm onAdd={addInvoiceHandler} />
         </Route>
+
+        <Route path="*">
+          <NotFound />
+        </Route>
+        
       </Switch>
     </Layout>
   );

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import InvoiceItem from "./InvoiceItem";
 import classes from "./InvoiceList.module.css";
@@ -14,6 +14,13 @@ const sortInvoices = (inovices, ascending) => {
   });
 };
 
+const data = [
+  {
+    price : -1,
+    quantity: -1
+  }
+];
+
 const InvoiceList = (props) => {
   const history = useHistory();
   const location = useLocation();
@@ -22,8 +29,8 @@ const InvoiceList = (props) => {
   const isSortingDESC = queryParams.get("sort") === "desc";
 
   const sortedInvoices = sortInvoices(props.invoices, isSortingDESC);
-
-  const [invoices, setInvoices] = useState([sortedInvoices]);
+  // const invoices = [sortedInvoices];
+  // const [invoices, setInvoices] = useState([sortedInvoices]);
 
   const changeSortingHandler = () => {
     history.push({
@@ -32,27 +39,32 @@ const InvoiceList = (props) => {
     });
   };
 
-   useEffect(() => {
-    localStorage.setItem('my_key', JSON.stringify(invoices));
-  }, [invoices]);
+  // useEffect(() => {
+  //   localStorage.setItem("my_key", JSON.stringify(invoices));
+  // }, [invoices]);
 
+  // useEffect(() => {
+  //   const items = JSON.parse(localStorage.getItem("my_key"));
+  //   if (items) {
+  //     setInvoices(items);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('my_key'));
-    if (items) {
-     setInvoices(items);
+  console.log(data);
+
+  function InvoiceTotal ({
+    invoices}) {
+      const total = invoices.reduce((acc, invoice) => acc + invoice.price * invoice.quantity, 0);
+      return <div className={classes.total}><h1>All Invoices Total : {total} $</h1></div>
     }
-  }, []);
 
   return (
     <Fragment>
-      
-        <div className={classes.sorting}>
-          <button onClick={changeSortingHandler}>
-            Sort {!isSortingDESC ? "Ascending" : "Descending"}{" "}
-          </button>
-        </div>
-      
+      <div className={classes.sorting}>
+        <button onClick={changeSortingHandler}>
+          Sort {!isSortingDESC ? "Ascending" : "Descending"}{" "}
+        </button>
+      </div>
 
       <ul className={classes.list}>
         {sortedInvoices.map((item, index) => {
@@ -67,7 +79,8 @@ const InvoiceList = (props) => {
             />
           );
         })}
-      </ul>
+        < InvoiceTotal invoices =  {sortedInvoices} />
+      </ul>      
     </Fragment>
   );
 };

@@ -1,9 +1,9 @@
 
-import InvoiceForm from "./InvoiceForm";
+// import InvoiceForm from "./InvoiceForm";
 
 const NewInvoice = (props) => {
 
-  return <InvoiceForm onAdd={props.onAdd} />;
+  // return <InvoiceForm onAdd={props.onAdd} />;
 };
 
 export default NewInvoice;

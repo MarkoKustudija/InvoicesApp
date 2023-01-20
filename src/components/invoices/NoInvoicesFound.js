@@ -1,17 +1,16 @@
-
-import classes from './NoInvoicesFound.module.css';
-import { Link } from 'react-router-dom';
+import classes from "./NoInvoicesFound.module.css";
+import { Link } from "react-router-dom";
 // import React, { useState } from 'react';
 
-const NoInvoicesFound = (props) => {
-
-
+const NoInvoicesFound = () => {
   return (
     <div className={classes.noinvoices}>
-      <p>No invoices yet!</p>
-      <Link className='btn' to='/new-invoice'>
-        Add new Invoice 
-      </Link>
+      <div>
+        <p>No invoices yet!</p>
+        <Link className="btn" to="/new-invoice">
+          Add new Invoice
+        </Link>
+      </div>
     </div>
   );
 };

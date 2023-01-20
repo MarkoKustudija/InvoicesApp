@@ -6,13 +6,20 @@ import { useEffect, useState } from "react";
 import InvoiceForm from "./components/invoices/InvoiceForm";
 import NoInvoicesFound from "./components/invoices/NoInvoicesFound";
 import NotFound from "./NotFound";
+import { useDispatch, useSelector } from "react-redux";
+import { homeActions } from "./store/home";
 
 function App() {
+
+
+  const isInvoice = useSelector((state) => state.home.isThereAnyInvoices); // false
+  const dispatch = useDispatch();
+
   const [invoices, setInvoices] = useState(
     !localStorage.getItem("key") ? [] : JSON.parse(localStorage.getItem("key"))
   );
 
-  const [isThereInvoices, setIsThereInvoices] = useState(false);
+  // const [isThereInvoices, setIsThereInvoices] = useState(false);
 
   const [isEntering, setIsEntering] = useState(false);
 
@@ -22,6 +29,7 @@ function App() {
     if (isEntering) {
       history.push("/invoices");
     }
+
     localStorage.setItem("key", JSON.stringify(invoices));
   }, [isEntering, history, invoices]);
 
@@ -34,13 +42,15 @@ function App() {
     console.log("Items : " + items);
   }, []);
 
+
   const addInvoiceHandler = (newInvoice) => {
     setInvoices((prevValue) => {
       return [...prevValue, newInvoice];
     });
 
-    setIsThereInvoices(true);
+    // setIsThereInvoices(true);
     setIsEntering(true);
+    dispatch(homeActions.check());
   };
 
   const deleteInvoice = (id) => {
@@ -55,17 +65,18 @@ function App() {
   return (
     <Layout>
       <Switch>
-        {!isThereInvoices && (
+        {/* {!isThereInvoices && ( */}
+        {!isInvoice && (
           <Route path="/home" exact>
             <NoInvoicesFound />
           </Route>
         )}
 
-        
+        {isInvoice && (
           <Route path="/home" exact>
             <HomePage />
           </Route>
-        
+        )}
 
         <Route path="/" exact>
           <Redirect to="/home" />

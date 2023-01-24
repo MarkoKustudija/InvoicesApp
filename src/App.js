@@ -6,20 +6,28 @@ import { useEffect, useState } from "react";
 import InvoiceForm from "./components/invoices/InvoiceForm";
 import NoInvoicesFound from "./components/invoices/NoInvoicesFound";
 import NotFound from "./NotFound";
-import { useDispatch, useSelector } from "react-redux";
-import { homeActions } from "./store/home";
+// import { useDispatch, useSelector } from "react-redux";
+// import { homeActions } from "./store/home";
 
 function App() {
-
-
   // const isInvoice = useSelector((state) => state.home.isThereAnyInvoices); // false
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [invoices, setInvoices] = useState(
     !localStorage.getItem("key") ? [] : JSON.parse(localStorage.getItem("key"))
   );
 
-  const [isThereInvoices, setIsThereInvoices] = useState(!localStorage.getItem("key_1") ? false : JSON.parse(localStorage.getItem("key_1")));
+  const [isThereInvoices, setIsThereInvoices] = useState(
+    !localStorage.getItem("key_1")
+      ? false
+      : JSON.parse(localStorage.getItem("key_1"))
+  );
+
+  const [isInvoiceDeleted, setIsInvoiceDeleted] = useState(
+    !localStorage.getItem("delete")
+      ? false
+      : JSON.parse(localStorage.getItem("delete"))
+  );
 
   const [isEntering, setIsEntering] = useState(false);
 
@@ -32,7 +40,8 @@ function App() {
 
     localStorage.setItem("key", JSON.stringify(invoices));
     localStorage.setItem("key_1", JSON.stringify(isThereInvoices));
-  }, [isEntering, history, invoices, isThereInvoices]);
+    localStorage.setItem("delete", JSON.stringify(isInvoiceDeleted));
+  }, [isEntering, history, invoices, isThereInvoices, isInvoiceDeleted]);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("key"));
@@ -43,6 +52,16 @@ function App() {
     console.log("Items : " + items);
   }, []);
 
+  // DELETE
+
+  useEffect(() => {
+    if (isInvoiceDeleted) {
+      localStorage.removeItem("delete");
+    }
+    if (invoices < 1) {
+      localStorage.removeItem("key_1");
+    }
+  }, [invoices, isInvoiceDeleted]);
 
   const addInvoiceHandler = (newInvoice) => {
     setInvoices((prevValue) => {
@@ -51,7 +70,8 @@ function App() {
 
     setIsThereInvoices(true);
     setIsEntering(true);
-    dispatch(homeActions.check());
+    setIsInvoiceDeleted(false);
+    // dispatch(homeActions.check());
   };
 
   const deleteInvoice = (id) => {
@@ -60,25 +80,28 @@ function App() {
         return index !== id;
       });
     });
-    console.log("deleted");
+    setIsInvoiceDeleted(true);
   };
 
   return (
     <Layout>
       <Switch>
         {!isThereInvoices && (
-         //* {!isInvoice && ( 
+          //* {!isInvoice && (
           <Route path="/home" exact>
             <NoInvoicesFound />
           </Route>
         )}
 
-        {/* {isInvoice && ( */}
-      
+        {isInvoiceDeleted && invoices < 1 && (
           <Route path="/home" exact>
-            <HomePage />
+            <NoInvoicesFound />
           </Route>
-        {/* )} */}
+        )}
+
+        <Route path="/home" exact>
+          <HomePage />
+        </Route>
 
         <Route path="/" exact>
           <Redirect to="/home" />

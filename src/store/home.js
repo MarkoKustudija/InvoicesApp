@@ -12,6 +12,7 @@ const homeSlice = createSlice({
       state.isThereAnyInvoices = true;
     },
   },
+  
 });
 
 export const homeActions = homeSlice.actions;

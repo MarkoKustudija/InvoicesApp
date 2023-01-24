@@ -12,14 +12,14 @@ import { homeActions } from "./store/home";
 function App() {
 
 
-  const isInvoice = useSelector((state) => state.home.isThereAnyInvoices); // false
+  // const isInvoice = useSelector((state) => state.home.isThereAnyInvoices); // false
   const dispatch = useDispatch();
 
   const [invoices, setInvoices] = useState(
     !localStorage.getItem("key") ? [] : JSON.parse(localStorage.getItem("key"))
   );
 
-  // const [isThereInvoices, setIsThereInvoices] = useState(false);
+  const [isThereInvoices, setIsThereInvoices] = useState(!localStorage.getItem("key_1") ? false : JSON.parse(localStorage.getItem("key_1")));
 
   const [isEntering, setIsEntering] = useState(false);
 
@@ -31,7 +31,8 @@ function App() {
     }
 
     localStorage.setItem("key", JSON.stringify(invoices));
-  }, [isEntering, history, invoices]);
+    localStorage.setItem("key_1", JSON.stringify(isThereInvoices));
+  }, [isEntering, history, invoices, isThereInvoices]);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("key"));
@@ -48,7 +49,7 @@ function App() {
       return [...prevValue, newInvoice];
     });
 
-    // setIsThereInvoices(true);
+    setIsThereInvoices(true);
     setIsEntering(true);
     dispatch(homeActions.check());
   };
@@ -65,18 +66,19 @@ function App() {
   return (
     <Layout>
       <Switch>
-        {/* {!isThereInvoices && ( */}
-        {!isInvoice && (
+        {!isThereInvoices && (
+         //* {!isInvoice && ( 
           <Route path="/home" exact>
             <NoInvoicesFound />
           </Route>
         )}
 
-        {isInvoice && (
+        {/* {isInvoice && ( */}
+      
           <Route path="/home" exact>
             <HomePage />
           </Route>
-        )}
+        {/* )} */}
 
         <Route path="/" exact>
           <Redirect to="/home" />
